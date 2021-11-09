@@ -1,0 +1,76 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: bionic
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:ubuntu18
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: focal
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:ubuntu20
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - python3
+  - name: buster
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:debian10
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: bullseye
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:debian11
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: centos7
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:centos7
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: centos8
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:centos8
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - python3
+  - name: rocky8
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:rocky8
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - python3
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: prepare.yml
+    converge: playbook.yml
+  inventory:
+    group_vars:
+      python3:
+        ansible_python_interpreter: /usr/bin/python3
+    host_vars:
+      bullseye:
+        ansible_python_interpreter: "/usr/bin/python3.9"
+
+verifier:
+  name: goss

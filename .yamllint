@@ -1,0 +1,112 @@
+---
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - '.yamllint'
+
+rules:
+  braces: enable
+  brackets: enable
+  colons: enable
+  commas: enable
+  comments: disable
+  comments-indentation:
+    level: warning
+  document-end: disable
+  document-start:
+    level: warning
+  empty-lines: enable
+  empty-values: disable
+  hyphens: enable
+  indentation: enable
+  key-duplicates: enable
+  key-ordering: disable
+  line-length: disable
+  new-line-at-end-of-file: enable
+  new-lines: enable
+  octal-values: disable
+  quoted-strings: disable
+  trailing-spaces: enable
+  truthy:
+    level: warning
+
+
+#rules:
+#  braces:
+#    # Keeping 0 min-spaces to not error on empty collection definitions
+#    min-spaces-inside: 0
+#    # Allowing one space inside braces to improve code readability
+#    max-spaces-inside: 1
+#
+#  brackets:
+#    # Keeping 0 min-spaces to not error on empty collection definitions
+#    min-spaces-inside: 0
+#    # Allowing one space inside braces to improve code readability
+#    max-spaces-inside: 1
+#
+#  colons:
+#    level: warning
+#    max-spaces-before: 0
+#    # Allow to tab all vars on the same column
+#    max-spaces-after: -1
+#
+#  commas:
+#    max-spaces-before: 0
+#    min-spaces-after: 1
+#    max-spaces-after: 1
+#
+#  comments:
+#    # Disabling to allow for code comment blocks and #!/usr/bin/ansible-playbook
+#    require-starting-space: false
+#    ignore-shebangs: true
+#    min-spaces-from-content: 2
+#
+#  comments-indentation: enable
+#
+#  document-start:
+#    present: true
+#
+#  empty-lines:
+#    max: 2
+#    max-start: 0
+#    max-end: 0
+#
+#  empty-values:
+#    forbid-in-block-mappings: true
+#    forbid-in-flow-mappings: true
+#
+#  hyphens:
+#    max-spaces-after: 1
+#
+#  indentation:
+#    # Requiring 2 space indentation
+#    spaces: 2
+#    # Requiring consistent indentation within a file, either indented or not
+#    indent-sequences: consistent
+#    check-multi-line-strings: false
+#
+#  key-duplicates: enable
+#
+#  # Disabling due to copious amounts of long lines in the code which would
+#  line-length: disable
+#
+#  new-line-at-end-of-file: enable
+#
+#  new-lines:
+#    type: unix
+#
+#  octal-values:
+#    forbid-implicit-octal: false
+#    forbid-explicit-octal: true
+#
+#  quoted-strings:
+#    level: warning
+#    quote-type: any
+#    required: false
+#    extra-required: []
+#    extra-allowed: []
+#
+#  trailing-spaces: enable
+#
+#  # Disabling due to copious amounts of truthy warnings in the code which would
+#  truthy: disable

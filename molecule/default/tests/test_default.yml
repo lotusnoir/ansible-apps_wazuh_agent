@@ -1,0 +1,10 @@
+---
+#file:
+#  /var/spool/rsyslog:
+#    exists: true
+#    mode: "0755"
+
+service:
+  wazuh-agent:
+    enabled: true
+    running: true

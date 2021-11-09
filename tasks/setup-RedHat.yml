@@ -1,0 +1,26 @@
+---
+- name: Redhat | Import a key from a url
+  rpm_key:
+    state: present
+    key: https://packages.wazuh.com/key/GPG-KEY-WAZUH
+
+- name: Redhat | Copy repo informations
+  copy:
+    dest: /etc/yum.repos.d/wazuh.repo
+    content: |
+      [wazuh_repo]
+      gpgcheck=1
+      gpgkey=https://packages.wazuh.com/key/GPG-KEY-WAZUH
+      enabled=1
+      name=Wazuh repository
+      baseurl=https://packages.wazuh.com/4.x/yum/
+      protect=1
+    mode: '0644'
+
+- name: Redhat | Install wazuh-agent package
+  dnf:
+    name: wazuh-agent
+    state: present
+  environment:
+    WAZUH_MANAGER: "{{ wazuh_manager_ip }}"
+    WAZUH_PROTOCOL: "{{ wazuh_manager_protocol }}"
