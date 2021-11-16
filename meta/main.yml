@@ -3,7 +3,7 @@ galaxy_info:
   author: lotusnoir
   role_name: apps_wazuh_agent
   description: "Install and configure wazuh_agent"
-  license: "GNU General Public License v3.0"
+  license: "Apache License, Version 2.0"
   min_ansible_version: 2.8
 
   platforms:
@@ -25,7 +25,6 @@ galaxy_info:
     - name: "Rocky"
       versions:
         - "8"
-
 
   galaxy_tags:
     - security

@@ -4,14 +4,14 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: bionic
+  - name: bionic_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu18
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: focal
+  - name: focal_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu20
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -20,28 +20,28 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
-  - name: buster
+  - name: buster_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian10
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: bullseye
+  - name: bullseye_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian11
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: centos7
+  - name: centos7_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:centos7
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: centos8
+  - name: centos8_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:centos8
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -50,7 +50,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
-  - name: rocky8
+  - name: rocky8_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:rocky8
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
