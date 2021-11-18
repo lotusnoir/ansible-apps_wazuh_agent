@@ -26,7 +26,6 @@ ansible-lint:
   script:
     - ansible-lint .
 
-
 ######################################################
 # RUN MOLECULE FOR FULL TEST SCENARIO
 ######################################################
@@ -44,7 +43,6 @@ molecule:
     - molecule --version
   script:
     - molecule test
-
 
 ######################################################
 # GENERATE CHANGELOG FILE

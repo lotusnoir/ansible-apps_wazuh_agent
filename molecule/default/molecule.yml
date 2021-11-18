@@ -4,14 +4,14 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: bionic_apps_wazuh_agent
+  - name: ubuntu18_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu18
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: focal_apps_wazuh_agent
+  - name: ubuntu20_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu20
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -20,14 +20,14 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
-  - name: buster_apps_wazuh_agent
+  - name: debian10_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian10
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: bullseye_apps_wazuh_agent
+  - name: debian11_apps_wazuh_agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian11
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
