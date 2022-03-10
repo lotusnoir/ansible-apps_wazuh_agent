@@ -20,7 +20,6 @@ galaxy_info:
         - "Maipo"
     - name: "CentOS"
       versions:
-        - "8"
         - "7"
     - name: "Rocky"
       versions:

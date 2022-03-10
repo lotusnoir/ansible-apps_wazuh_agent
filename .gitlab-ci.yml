@@ -62,9 +62,9 @@ changelog:
     - auto-changelog -t keepachangelog --sort-commits date-desc --hide-empty-releases --hide-credit -l 10 -b 10
 
 
-###################################################
-## PUSH CODE WHEN ALL TEST OK
-###################################################
+##################################################
+# PUSH CODE WHEN ALL TEST OK
+##################################################
 push_src_on_github:
   stage: push
   image: alpine:latest
