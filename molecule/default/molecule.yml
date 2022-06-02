@@ -20,6 +20,15 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
+  - name: ubuntu22-apps-wazuh-agent
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:ubuntu22
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - python3
   - name: debian10-apps-wazuh-agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian10
@@ -41,15 +50,6 @@ platforms:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: centos8-apps-wazuh-agent
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:centos8
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    groups:
-      - python3
   - name: rocky8-apps-wazuh-agent
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:rocky8

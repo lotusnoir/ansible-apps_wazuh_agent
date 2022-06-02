@@ -1,11 +1,11 @@
 ---
 ### Checks
 - name: Import check tasks
-  import_tasks: check.yml
+  ansible.builtin.import_tasks: check.yml
 
 ### Import vars
 - name: add OS specific variables
-  include_vars: '{{ vars_file }}'
+  ansible.builtin.include_vars: '{{ vars_file }}'
   with_first_found:
     - files:
         - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
@@ -19,4 +19,4 @@
 
 ### Install
 - name: Import install tasks
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml

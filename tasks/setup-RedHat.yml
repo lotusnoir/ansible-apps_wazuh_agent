@@ -1,11 +1,11 @@
 ---
-- name: Redhat | Import a key from a url
-  rpm_key:
+- name: "Redhat | Import a key from a url"
+  ansible.builtin.rpm_key:
     state: present
     key: https://packages.wazuh.com/key/GPG-KEY-WAZUH
 
-- name: Redhat | Copy repo informations
-  copy:
+- name: "Redhat | Copy repo informations"
+  ansible.builtin.copy:
     dest: /etc/yum.repos.d/wazuh.repo
     content: |
       [wazuh_repo]
@@ -17,8 +17,8 @@
       protect=1
     mode: '0644'
 
-- name: Redhat | Install wazuh-agent package
-  dnf:
+- name: "Redhat | Install wazuh-agent package"
+  ansible.builtin.dnf:
     name: wazuh-agent
     state: present
   environment:
