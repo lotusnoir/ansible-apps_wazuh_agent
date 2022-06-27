@@ -25,6 +25,9 @@ galaxy_info:
     - name: "Rocky"
       versions:
         - "8"
+    - name: "OracleLinux"
+      versions:
+        - "8"
 
   galaxy_tags:
     - security
