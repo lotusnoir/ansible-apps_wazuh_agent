@@ -4,7 +4,7 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: ubuntu18-apps-wazuh-agent
+  - name: apps-wazuh-agent-ubuntu18
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu18
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -12,7 +12,7 @@ platforms:
     capabilities: ['NET_ADMIN']
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: ubuntu20-apps-wazuh-agent
+  - name: apps-wazuh-agent-ubuntu20
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu20
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -22,7 +22,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
-  - name: ubuntu22-apps-wazuh-agent
+  - name: apps-wazuh-agent-ubuntu22
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:ubuntu22
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -31,28 +31,28 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
-  - name: debian10-apps-wazuh-agent
+  - name: apps-wazuh-agent-debian10
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian10
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: debian11-apps-wazuh-agent
+  - name: apps-wazuh-agent-debian11
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:debian11
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: centos7-apps-wazuh-agent
+  - name: apps-wazuh-agent-centos7
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:centos7
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: rocky8-apps-wazuh-agent
+  - name: apps-wazuh-agent-rocky8
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:rocky8
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
@@ -61,7 +61,16 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
-  - name: oraclelinux8-apps-wazuh-agent
+  - name: apps-wazuh-agent-oraclelinux7
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:oraclelinux8
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - python3
+  - name: apps-wazuh-agent-oraclelinux8
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:oraclelinux8
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
