@@ -3,44 +3,46 @@
   hosts: all
   become: true
   vars:
-    goss_version: v0.3.16
+    goss_version: v0.3.18
     goss_arch: amd64
     goss_bin: /usr/local/bin/goss
     goss_test_directory: /tmp/molecule/goss
     goss_format: documentation
   tasks:
-    ### INCLUDE META
-    - name: Include roles' meta data
-      include_vars:
-        file: "../../meta/main.yml"
-    ### TEST DISTRIB
-    - name: Test the distribution is supported. End the host if not.
-      set_fact:
-        supported_distributions: "{{ galaxy_info.platforms|json_query('[].name') }}"
-    - block:
-        - name: Ending play...
-          meta: end_host
-      when: ansible_distribution not in supported_distributions
-    ### TEST RELEASE
-    - name: Test the release is supported. End the host if not.
-      set_fact:
-        supported_releases: "{{ (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions }}"
-    - block:
-        - name: Ending play...
-          meta: end_host
-      when: ansible_distribution_release not in supported_releases and ansible_distribution_major_version not in supported_releases
+    ## Duplicate with checks.yml on install tasks
+    #### INCLUDE META
+    #- name: Include roles' meta data
+    #  include_vars:
+    #    file: "../../meta/main.yml"
+    #### TEST DISTRIB
+    #- name: Test the distribution is supported. End the host if not.
+    #  set_fact:
+    #    supported_distributions: "{{ galaxy_info.platforms|json_query('[].name') }}"
+    #- block:
+    #    - name: Ending play...
+    #      meta: end_host
+    #  when: ansible_distribution not in supported_distributions
+    #### TEST RELEASE
+    #- name: Test the release is supported. End the host if not.
+    #  set_fact:
+    #    supported_releases: "{{ (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions }}"
+    #- block:
+    #    - name: Ending play...
+    #      meta: end_host
+    #  when: ansible_distribution_release not in supported_releases and ansible_distribution_major_version not in supported_releases
 
-    ### Install
-    - name: Install ca-certificates
-      package:
-        name: ca-certificates
-        state: present
+    # Added packages on docker image direcly to avoid continuous download on pipeline
+    #### Install
+    #- name: Install ca-certificates
+    #  package:
+    #    name: ca-certificates
+    #    state: present
 
-    - name: Download and install Goss
-      get_url:
-        url: "https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-{{ goss_arch }}"
-        dest: "{{ goss_bin }}"
-        mode: 0755
+    #- name: Download and install Goss
+    #  get_url:
+    #    url: "https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-{{ goss_arch }}"
+    #    dest: "{{ goss_bin }}"
+    #    mode: 0755
 
     - name: Create Molecule directory for test files
       file:
@@ -61,11 +63,6 @@
       register: test_files
       changed_when: false
       become: false
-
-    - name: debug
-      debug:
-        msg: "{{ test_files.files }}"
-        verbosity: 3
 
     - name: Copy Goss tests to remote
       copy:

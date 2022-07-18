@@ -18,7 +18,7 @@
     mode: '0644'
 
 - name: "Redhat | Install wazuh-agent package"
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name: wazuh-agent
     state: present
   environment:

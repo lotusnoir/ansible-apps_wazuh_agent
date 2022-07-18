@@ -83,6 +83,7 @@ push_src_on_github:
     - COMMENT=$(git log -1 --pretty=%B | head -1)
   script:
     - git clone git@github.com:${GITHUB_USER}/ansible-apps_wazuh_agent.git /tmp/ansible-apps_wazuh_agent
+    - find /tmp/ansible-apps_wazuh_agent -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf "{}" +;
     - rm -rf .git
     - cp -r . /tmp/ansible-apps_wazuh_agent/
     - cd /tmp/ansible-apps_wazuh_agent
