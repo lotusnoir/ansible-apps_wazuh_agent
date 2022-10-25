@@ -1,11 +1,11 @@
 ---
 ### INCLUDE META
-- name: Include roles' meta data
+- name: Include role meta file
   ansible.builtin.include_vars:
     file: "{{ role_path }}/meta/main.yml"
 
-### TEST DISTRIB
-- name: Test the distribution is supported. End the host if not.
+### Check supported distribution
+- name: Checking distribution...
   ansible.builtin.set_fact:
     supported_distributions: "{{ galaxy_info.platforms|json_query('[].name') }}"
 - name: Exit conditions
@@ -18,18 +18,18 @@
   when: ansible_distribution not in supported_distributions
 
 ### TEST RELEASE
-- name: Test the release is supported. End the host if not.
+- name: Checking release...
   ansible.builtin.set_fact:
     supported_releases: "{{ (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions }}"
 - name: Exit conditions
   block:
     - name: Ending play...
       ansible.builtin.debug:
-        msg: "{{ ansible_distribution_release }} not supported. End of host."
+        msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} not supported. End of host."
     - name: Ending play...
       ansible.builtin.meta: end_host
   when: ansible_distribution_release not in supported_releases and ansible_distribution_major_version not in supported_releases
 
 - name: The distribution and release is supported. Continue play.
   ansible.builtin.debug:
-    msg: "{{ ansible_distribution }} {{ ansible_distribution_release }} is supported. Continue play."
+    msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is supported. Continue play."
