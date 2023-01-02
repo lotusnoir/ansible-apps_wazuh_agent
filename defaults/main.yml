@@ -2,4 +2,8 @@
 wazuh_manager_ip: 10.64.36.114
 wazuh_manager_port: 1514
 wazuh_manager_protocol: tcp
+
+wazuh_manager_passwd: "" #Not use if empty
+wazuh_manager_rootCA: "" #Not use if empty
+
 wazuh_agent_profile: "debian, debian11"

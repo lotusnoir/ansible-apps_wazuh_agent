@@ -7,6 +7,20 @@
   ansible.builtin.include_tasks: setup-Debian.yml
   when: ansible_os_family == "Debian"
 
+- name: "Add password file"
+  ansible.builtin.copy:
+    dest: "/var/ossec/etc/authd.pass"
+    content: "{{ wazuh_manager_passwd }}"
+    mode: '0600'
+  when: wazuh_manager_passwd | length > 0
+
+- name: "Add rootCA file"
+  ansible.builtin.copy:
+    dest: "/var/ossec/etc/rootCA.pem"
+    content: "{{ wazuh_manager_rootCA }}"
+    mode: '0600'
+  when: wazuh_manager_rootCA | length > 0
+
 - name: "Start wazuh-agent"
   ansible.builtin.service:
     name: wazuh-agent
