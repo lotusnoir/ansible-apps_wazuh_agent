@@ -1,0 +1,21 @@
+---
+- name: Downlad Wazuh Agent Installer
+  win_get_url:
+    url: https://packages.wazuh.com/4.x/windows/wazuh-agent-4.3.5-1.msi
+    dest: C:\Users\{{ ansible_user }}\Downloads\wazuh-agent-4.3.5.msi
+    force: false
+
+- name: Windows | Install Wazuh Agent Package
+  win_package:
+    path: C:\Users\{{ ansible_user }}\Downloads\wazuh-agent-4.3.5.msi
+    state: present
+    wait_for_children: true
+    arguments: "/q WAZUH_MANAGER={{ wazuh_manager_ip }} WAZUH_REGISTRATION_SERVER={{ wazuh_manager_ip }} WAZUH_REGISTRATION_PASSWORD={{ wazuh_manager_passwd }}"
+    creates_path: C:\Program Files (x86)\ossec-agent\wazuh-agent.exe
+  register: wazuh_installed
+
+- name: "Windows | Start Wazuh Agent Service"
+  win_service:
+    name: "Wazuh"
+    state: started
+  when: not ansible_check_mode and ansible_os_family == "Windows"

@@ -22,4 +22,7 @@
     update_cache: 'yes'
   environment:
     WAZUH_MANAGER: "{{ wazuh_manager_ip }}"
+    WAZUH_MANAGER_PORT: "{{ wazuh_manager_port }}"
     WAZUH_PROTOCOL: "{{ wazuh_manager_protocol }}"
+    WAZUH_REGISTRATION_PASSWORD: "{{ wazuh_manager_passwd }}"
+    WAZUH_AGENT_GROUP: "{{ wazuh_agent_profile }}"
