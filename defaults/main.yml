@@ -1,9 +1,20 @@
 ---
-wazuh_manager_ip: 10.64.36.114
+#Deploy vars
+wazuh_version: "4.x"
+wazuh_manager_ip: "1.2.3.4"
 wazuh_manager_port: 1514
 wazuh_manager_protocol: tcp
+wazuh_registration_server: "{{ wazuh_manager_ip }}"
+wazuh_registration_port: 1515
+wazuh_registration_password: ""
+wazuh_keep_alive_interval: 10
+wazuh_time_reconnect: 60
+wazuh_registration_ca_path: ""
+wazuh_registration_certificate_path: ""
+wazuh_registration_key_path: ""
+wazuh_agent_name: "{{ ansible_hostname }}"
+wazuh_agent_group: "default"
+wazuh_enrollment_delay: 20
 
-wazuh_manager_passwd: "" #Not use if empty
-wazuh_manager_rootCA: "" #Not use if empty
-
-wazuh_agent_profile: "debian, debian11"
+#Force reinstall
+wazuh_agent_reinstall: false

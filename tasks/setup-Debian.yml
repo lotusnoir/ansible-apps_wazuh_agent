@@ -15,6 +15,19 @@
     state: present
     filename: wazuh
 
+- name: "Debian | Uninstall wazuh-agent package"
+  ansible.builtin.apt:
+    name: "wazuh-agent"
+    state: absent
+    purge: true
+  when: wazuh_agent_reinstall|bool
+
+- name: "Debian | Delete configuration folder"
+  ansible.builtin.file:
+    path: "/var/ossec"
+    state: absent
+  when: wazuh_agent_reinstall|bool
+
 - name: "Debian | Install wazuh-agent package"
   ansible.builtin.package:
     name: "wazuh-agent"
@@ -24,5 +37,14 @@
     WAZUH_MANAGER: "{{ wazuh_manager_ip }}"
     WAZUH_MANAGER_PORT: "{{ wazuh_manager_port }}"
     WAZUH_PROTOCOL: "{{ wazuh_manager_protocol }}"
-    WAZUH_REGISTRATION_PASSWORD: "{{ wazuh_manager_passwd }}"
-    WAZUH_AGENT_GROUP: "{{ wazuh_agent_profile }}"
+    WAZUH_REGISTRATION_SERVER: "{{ wazuh_registration_server }}"
+    WAZUH_REGISTRATION_PORT: "{{ wazuh_registration_port }}"
+    WAZUH_REGISTRATION_PASSWORD: "{{ wazuh_registration_password }}"
+    WAZUH_KEEP_ALIVE_INTERVAL: "{{ wazuh_keep_alive_interval }}"
+    WAZUH_TIME_RECONNECT: "{{ wazuh_time_reconnect }}"
+    WAZUH_REGISTRATION_CA: "{{ wazuh_registration_ca_path }}"
+    WAZUH_REGISTRATION_CERTIFICATE: "{{ wazuh_registration_certificate_path }}"
+    WAZUH_REGISTRATION_KEY: "{{ wazuh_registration_key_path }}"
+    WAZUH_AGENT_NAME: "{{ wazuh_agent_name }}"
+    WAZUH_AGENT_GROUP: "{{ wazuh_agent_group }}"
+    ENROLLMENT_DELAY: "{{ wazuh_enrollment_delay }}"
