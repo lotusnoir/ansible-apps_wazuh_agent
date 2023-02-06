@@ -8,12 +8,21 @@
   ansible.builtin.apt_key:
     url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
     state: present
+  when: wazuh_repository is not defined
 
 - name: "Debian | Add wazuh repo to apt list"
   ansible.builtin.apt_repository:
     repo: deb https://packages.wazuh.com/4.x/apt/ stable main
     state: present
     filename: wazuh
+  when: wazuh_repository is not defined
+
+- name: "Debian | Add wazuh repo to apt list"
+  ansible.builtin.apt_repository:
+    repo: "{{ wazuh_repository }}"
+    state: present
+    filename: wazuh
+  when: wazuh_repository is defined and wazuh_repository|length > 0
 
 - name: "Debian | Uninstall wazuh-agent package"
   ansible.builtin.apt:
@@ -27,6 +36,11 @@
     path: "/var/ossec"
     state: absent
   when: wazuh_agent_reinstall|bool
+
+- name: "Debian | Download only wazuh-agent package"
+  ansible.builtin.command: apt install --download-only wazuh-agent
+  changed_when: false
+  when: wazuh_agent_dl_only|bool
 
 - name: "Debian | Install wazuh-agent package"
   ansible.builtin.package:
@@ -48,3 +62,4 @@
     WAZUH_AGENT_NAME: "{{ wazuh_agent_name }}"
     WAZUH_AGENT_GROUP: "{{ wazuh_agent_group }}"
     ENROLLMENT_DELAY: "{{ wazuh_enrollment_delay }}"
+  when: not wazuh_agent_dl_only|bool

@@ -48,3 +48,15 @@
     WAZUH_AGENT_NAME: "{{ wazuh_agent_name }}"
     WAZUH_AGENT_GROUP: "{{ wazuh_agent_group }}"
     ENROLLMENT_DELAY: "{{ wazuh_enrollment_delay }}"
+  when: not wazuh_agent_dl_only|bool
+
+- name: "Redhat | Install yum-downloadonly"
+  ansible.builtin.yum:
+    name: yum-downloadonly
+    state: present
+  when: wazuh_agent_dl_only|bool
+
+- name: "Redhat | Download only wazuh-agent package"
+  ansible.builtin.command: yum install --downloadonly wazuh-agent
+  changed_when: false
+  when: wazuh_agent_dl_only|bool

@@ -18,3 +18,4 @@ wazuh_enrollment_delay: 20
 
 #Force reinstall
 wazuh_agent_reinstall: false
+wazuh_agent_dl_only: false

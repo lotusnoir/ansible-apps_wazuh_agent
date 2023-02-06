@@ -16,4 +16,6 @@
     name: wazuh-agent
     state: started
     enabled: true
-  when: ansible_os_family != "Windows"
+  when:
+    - ansible_os_family != "Windows"
+    - not wazuh_agent_dl_only|bool
