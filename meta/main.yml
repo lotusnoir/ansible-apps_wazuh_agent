@@ -14,8 +14,8 @@ galaxy_info:
         - "jammy"
     - name: "Debian"
       versions:
-        - "bullseye"
         - "buster"
+        - "bullseye"
     - name: "RedHat"
       versions:
         - "Maipo"
@@ -29,6 +29,7 @@ galaxy_info:
       versions:
         - "7"
         - "8"
+        - "9"
 
   galaxy_tags:
     - security
