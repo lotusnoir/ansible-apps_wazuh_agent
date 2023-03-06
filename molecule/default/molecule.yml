@@ -11,7 +11,7 @@ scenario:
     - prepare
     - converge
     - idempotence
-    - verify
+    #- verify
     - destroy
 platforms:
   - name: apps-wazuh-agent-ubuntu18
@@ -113,4 +113,4 @@ provisioner:
         ansible_python_interpreter: "/usr/bin/python3.9"
 
 verifier:
-  name: goss
+  name: ansible

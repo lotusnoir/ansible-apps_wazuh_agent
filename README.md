@@ -34,3 +34,6 @@ See [variables](/defaults/main.yml) for more details.
 
 This project is licensed under Apache License. See [LICENSE](/LICENSE) for more details.
 
+## Author Information
+
+- [Philippe LEAL](https://github.com/lotusnoir)
