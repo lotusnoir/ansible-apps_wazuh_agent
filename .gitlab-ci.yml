@@ -27,9 +27,35 @@ ansible-lint:
     - ansible-lint .
 
 ######################################################
-# RUN MOLECULE FOR FULL TEST SCENARIO
+# RUN MOLECULE FOR EACH DISTRIB
 ######################################################
-molecule:
+molecule_ubuntu18:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+    MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=ubuntu18 molecule test
+molecule_ubuntu20:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+    MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=ubuntu20 molecule test
+molecule_ubuntu22:
   stage: test
   image: lotusnoir/molecule_play
   services:
@@ -39,10 +65,92 @@ molecule:
   needs:
     - yamllint
     - ansible-lint
-  before_script:
-    - molecule --version
   script:
-    - molecule test
+    - MOLECULE_DISTRIB=ubuntu22 molecule test
+molecule_debian10:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=debian10 molecule test
+molecule_debian11:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=debian11 molecule test
+molecule_centos7:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=centos7 molecule test
+molecule_rocky8:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=rocky8 molecule test
+molecule_oraclelinux7:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=oraclelinux7 molecule test
+molecule_oraclelinux8:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=oraclelinux8 molecule test
+molecule_oraclelinux9:
+  stage: test
+  image: lotusnoir/molecule_play
+  services:
+    - docker:dind
+  variables:
+    PY_COLORS: 1
+  needs:
+    - yamllint
+    - ansible-lint
+  script:
+    - MOLECULE_DISTRIB=oraclelinux9 molecule test
 
 ######################################################
 # GENERATE CHANGELOG FILE
@@ -51,7 +159,16 @@ changelog:
   stage: changes
   image: node:latest
   needs:
-    - molecule
+    - molecule_ubuntu18
+    - molecule_ubuntu20
+    - molecule_ubuntu22
+    - molecule_debian10
+    - molecule_debian11
+    - molecule_centos7
+    - molecule_rocky8
+    - molecule_oraclelinux7
+    - molecule_oraclelinux8
+    - molecule_oraclelinux9
   artifacts:
     paths:
       - CHANGELOG.md
