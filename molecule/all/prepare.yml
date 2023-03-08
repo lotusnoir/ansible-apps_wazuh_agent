@@ -1,0 +1,16 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: true
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+      changed_when: false
+
+    - name: Start dbus for oraclelinux9
+      ansible.builtin.systemd:
+        name: dbus
+        state: started
+        enabled: true
+      when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == "9"
