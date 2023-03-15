@@ -5,31 +5,15 @@
     file: "{{ role_path }}/meta/main.yml"
 
 ### Check supported distribution
-- name: Checking distribution...
-  ansible.builtin.set_fact:
-    supported_distributions: "{{ galaxy_info.platforms|json_query('[].name') }}"
-- name: Exit conditions
+- name: Test if distrib is supported by role
   block:
-    - name: Ending play...
-      ansible.builtin.debug:
-        msg: "{{ ansible_distribution }} not supported. End of host."
-    - name: Ending play...
+    - name: Test if distrib is supported by role
+      ansible.builtin.assert:
+        that:
+          - ansible_distribution in galaxy_info.platforms|json_query('[].name')
+          - (ansible_distribution_release in (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions) or (ansible_distribution_major_version in (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions)
+        fail_msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} not supported."
+        success_msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is supported. Continue play."
+  rescue:
+    - name: Distribution not supported
       ansible.builtin.meta: end_host
-  when: ansible_distribution not in supported_distributions
-
-### TEST RELEASE
-- name: Checking release...
-  ansible.builtin.set_fact:
-    supported_releases: "{{ (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions }}"
-- name: Exit conditions
-  block:
-    - name: Ending play...
-      ansible.builtin.debug:
-        msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} not supported. End of host."
-    - name: Ending play...
-      ansible.builtin.meta: end_host
-  when: ansible_distribution_release not in supported_releases and ansible_distribution_major_version not in supported_releases
-
-- name: The distribution and release is supported. Continue play.
-  ansible.builtin.debug:
-    msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is supported. Continue play."
