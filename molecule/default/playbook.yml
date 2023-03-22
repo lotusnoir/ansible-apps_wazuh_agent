@@ -4,5 +4,7 @@
   become: true
   any_errors_fatal: true
 
-  roles:
-    - role: ansible-apps_wazuh_agent
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: ansible-apps_wazuh_agent
