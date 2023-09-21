@@ -57,6 +57,15 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     groups:
       - python3
+  - name: apps-wazuh-agent-debian12
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:debian12
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - python3
   - name: apps-wazuh-agent-centos7
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:centos7
@@ -110,6 +119,8 @@ provisioner:
         ansible_python_interpreter: /usr/bin/python3
     host_vars:
       bullseye:
+        ansible_python_interpreter: "/usr/bin/python3.9"
+      bookworm:
         ansible_python_interpreter: "/usr/bin/python3.9"
 
 verifier:

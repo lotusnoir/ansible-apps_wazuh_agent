@@ -17,8 +17,8 @@ scenario:
     - destroy
 
 platforms:
-  - name: apps-wazuh-agent-${MOLECULE_DISTRIB:-debian11}
-    image: lotusnoir/ansible_molecule_test_images:${MOLECULE_DISTRIB:-debian11}
+  - name: apps-wazuh-agent-${MOLECULE_DISTRIB:-debian12}
+    image: lotusnoir/ansible_molecule_test_images:${MOLECULE_DISTRIB:-debian12}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
