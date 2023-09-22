@@ -1,7 +1,7 @@
 ---
 - name: Downlad Wazuh Agent Installer
   win_get_url:
-    url: https://packages.wazuh.com/4.x/windows/wazuh-agent-4.3.5-1.msi
+    url: "https://packages.wazuh.com/{{ wazuh_version }}/windows/wazuh-agent-4.3.5-1.msi"
     dest: C:\Users\{{ ansible_user }}\Downloads\wazuh-agent-4.3.5.msi
     force: false
 

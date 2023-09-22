@@ -4,19 +4,21 @@
   ansible.builtin.import_tasks: check.yml
 
 ### Import vars
-- name: Add OS specific variables
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+- name: Gather OS specific variables
+  ansible.builtin.include_vars: "{{ params }}"
   vars:
-    params:
+    params_:
       files:
         - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yml"
         - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
         - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
         - "{{ ansible_distribution | lower }}.yml"
         - "{{ ansible_os_family | lower }}.yml"
-        - "main.yml"
       paths:
-        - "vars"
+        - vars
+    params: "{{ lookup('first_found', params_, errors='ignore') }}"
+  when:
+    - (params | length > 0)
 
 ### Install
 - name: Import install tasks

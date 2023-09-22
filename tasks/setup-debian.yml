@@ -12,7 +12,7 @@
 
 - name: "Debian | Add wazuh repo to apt list"
   ansible.builtin.apt_repository:
-    repo: deb https://packages.wazuh.com/4.x/apt/ stable main
+    repo: "deb https://packages.wazuh.com/{{ wazuh_version }}/apt/ stable main"
     state: present
     filename: wazuh
   when: wazuh_repository is not defined
