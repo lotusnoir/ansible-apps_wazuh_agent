@@ -21,6 +21,10 @@
   ansible.builtin.yum:
     name: "wazuh-agent"
     state: absent
+  register: pkg_result
+  retries: 12
+  delay: 10
+  until: pkg_result is success
   when: wazuh_agent_reinstall|bool
 
 - name: "Redhat | Delete configuration folder"
@@ -33,6 +37,10 @@
   ansible.builtin.yum:
     name: wazuh-agent
     state: present
+  register: pkg_result
+  retries: 12
+  delay: 10
+  until: pkg_result is success
   environment:
     WAZUH_MANAGER: "{{ wazuh_manager_ip }}"
     WAZUH_MANAGER_PORT: "{{ wazuh_manager_port }}"
@@ -54,6 +62,10 @@
   ansible.builtin.yum:
     name: yum-downloadonly
     state: present
+  register: pkg_result
+  retries: 12
+  delay: 10
+  until: pkg_result is success
   when: wazuh_agent_dl_only|bool
 
 - name: "Redhat | Download only wazuh-agent package"

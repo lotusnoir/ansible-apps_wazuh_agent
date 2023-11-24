@@ -3,6 +3,10 @@
   ansible.builtin.package:
     name: "gnupg"
     state: present
+  register: pkg_result
+  retries: 12
+  delay: 10
+  until: pkg_result is success
 
 - name: "Debian | Add wazuh apt signing key"
   ansible.builtin.apt_key:
@@ -29,6 +33,10 @@
     name: "wazuh-agent"
     state: absent
     purge: true
+  register: pkg_result
+  retries: 12
+  delay: 10
+  until: pkg_result is success
   when: wazuh_agent_reinstall|bool
 
 - name: "Debian | Delete configuration folder"
@@ -47,6 +55,10 @@
     name: "wazuh-agent"
     state: present
     update_cache: 'yes'
+  register: pkg_result
+  retries: 12
+  delay: 10
+  until: pkg_result is success
   environment:
     WAZUH_MANAGER: "{{ wazuh_manager_ip }}"
     WAZUH_MANAGER_PORT: "{{ wazuh_manager_port }}"
