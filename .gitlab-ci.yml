@@ -9,46 +9,17 @@ variables:
   ANSIBLE_REMOTE_TMP: /tmp
   PY_COLORS: 1
 
-
-##################################################
-# LINT # we remove it as managed by pre-commit instead
-##################################################
-#yamllint:
-#  stage: lint
-#  image: sdesbure/yamllint
-#  before_script:
-#    - yamllint --version
-#  script:
-#    - yamllint .
-#
-#ansible-lint:
-#  stage: lint
-#  image: lotusnoir/ansible_play
-#  script:
-#    - ansible-lint .
-
-
-##################################################
-# TEST / SECU
-##################################################
-#include:
-#  - template: Security/Secret-Detection.gitlab-ci.yml
-
 ######################################################
 # RUN MOLECULE FOR EACH DISTRIB
 ######################################################
 molecule_ubuntu22:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=ubuntu22 molecule test
 molecule_ubuntu20:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
@@ -56,8 +27,6 @@ molecule_ubuntu20:
 molecule_ubuntu18:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
@@ -65,43 +34,31 @@ molecule_ubuntu18:
 molecule_debian10:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=debian10 molecule test
 molecule_debian11:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=debian11 molecule test
 molecule_debian12:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=debian12 molecule test
 molecule_rocky8:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=rocky8 molecule test
 molecule_oraclelinux8:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=oraclelinux8 molecule test
 molecule_oraclelinux9:
   stage: molecule
   image: lotusnoir/molecule_play
-  services:
-    - docker:dind
   script:
     - MOLECULE_DISTRIB=oraclelinux9 molecule test
 
