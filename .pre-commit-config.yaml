@@ -24,11 +24,11 @@ repos:
         entry: yamllint --strict -f parsable
 
   - repo: https://github.com/ansible-community/ansible-lint
-    rev: v6.2.2
+    rev: v6.22.2
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
-        entry: ansible-lint --force-color -v
+        entry: ansible-lint --force-color
         exclude: ^molecule/
 
   #- repo: https://github.com/kadrach/pre-commit-gitlabci-lint
@@ -41,3 +41,7 @@ repos:
     hooks:
       - id: ansible_role_find_unused_variable
       - id: ansible_role_find_empty_files
+      - id: ansible_role_find_empty_directories
+      - id: ansible_role_fix_readability
+      - id: ansible_role_find_undefined_handlers
+      - id: ansible_role_find_unquoted_values
