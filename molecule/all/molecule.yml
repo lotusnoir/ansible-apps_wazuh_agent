@@ -14,17 +14,17 @@ scenario:
     #- verify
     - destroy
 platforms:
-  - name: apps-wazuh-agent-ubuntu18
+  - name: apps-wazuh-agent-ubuntu20
     pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:ubuntu18
+    image: lotusnoir/ansible_molecule_test_images:ubuntu20
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     capabilities: ['NET_ADMIN']
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  - name: apps-wazuh-agent-ubuntu20
+  - name: apps-wazuh-agent-ubuntu18
     pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:ubuntu20
+    image: lotusnoir/ansible_molecule_test_images:ubuntu18
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     privileged: true
     capabilities: ['NET_ADMIN']
