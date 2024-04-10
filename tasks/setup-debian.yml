@@ -11,6 +11,7 @@
 - name: "Debian | Remove old wazuh apt signing key"
   ansible.builtin.apt_key:
     url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
+    keyring: /etc/apt/trusted.gpg
     state: absent
   when: wazuh_repository is not defined
 
