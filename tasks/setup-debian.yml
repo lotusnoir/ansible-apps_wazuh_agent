@@ -8,10 +8,19 @@
   delay: 10
   until: pkg_result is success
 
-- name: "Debian | Add wazuh apt signing key"
+- name: "Debian | Remove old wazuh apt signing key"
   ansible.builtin.apt_key:
     url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
-    state: present
+    keyring: /etc/apt/trusted.gpg
+    state: absent
+  when: wazuh_repository is not defined
+
+- name: "Debian | Add wazuh apt signing key"
+  ansible.builtin.get_url:
+    url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
+    dest: /etc/apt/trusted.gpg.d/wazuh.asc
+    mode: '0644'
+    force: true
   when: wazuh_repository is not defined
 
 - name: "Debian | Add wazuh repo to apt list"
