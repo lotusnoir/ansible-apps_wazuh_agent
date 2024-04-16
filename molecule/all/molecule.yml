@@ -75,6 +75,15 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     groups:
       - python3
+  - name: apps-wazuh-agent-rocky9
+    pre_build_image: true
+    image: lotusnoir/ansible_molecule_test_images:rocky9
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    groups:
+      - python3
   - name: apps-wazuh-agent-oraclelinux8
     pre_build_image: true
     image: lotusnoir/ansible_molecule_test_images:oraclelinux8
