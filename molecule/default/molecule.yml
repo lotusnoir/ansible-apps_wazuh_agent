@@ -21,7 +21,6 @@ platforms:
     image: lotusnoir/ansible_molecule_test_images:${MOLECULE_DISTRIB:-debian12}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
     pre_build_image: true
     cgroupns_mode: host
     volumes:
@@ -29,6 +28,8 @@ platforms:
 
 provisioner:
   name: ansible
+  connection_options:
+    ansible_remote_tmp: /tmp
   playbooks:
     prepare: prepare.yml
     converge: playbook.yml
