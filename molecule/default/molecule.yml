@@ -13,7 +13,7 @@ scenario:
     - prepare
     - converge
     - idempotence
-    #- verify
+    # - verify
     - destroy
 
 platforms:

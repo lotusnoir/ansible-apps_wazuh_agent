@@ -5,13 +5,13 @@ yaml-files:
   - '.yamllint'
 
 rules:
-  braces: enable
+  braces:
+    max-spaces-inside: 1
   brackets: enable
   colons: enable
   commas: enable
-  comments: disable
-  comments-indentation:
-    level: warning
+  comments: false
+  comments-indentation: false
   document-end: disable
   document-start:
     level: warning
@@ -24,7 +24,9 @@ rules:
   line-length: disable
   new-line-at-end-of-file: enable
   new-lines: enable
-  octal-values: disable
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
   quoted-strings: disable
   trailing-spaces: enable
   truthy:

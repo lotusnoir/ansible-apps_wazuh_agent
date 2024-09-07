@@ -14,54 +14,54 @@ variables:
 ######################################################
 molecule_debian12:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=debian12 molecule test
 molecule_debian11:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=debian11 molecule test
 molecule_debian10:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=debian10 molecule test
 molecule_oraclelinux8:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=oraclelinux8 molecule test
 molecule_oraclelinux9:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=oraclelinux9 molecule test
 molecule_rocky8:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=rocky8 molecule test
 molecule_rocky9:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=rocky9 molecule test
 molecule_ubuntu18:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:v2.0.0
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
     - MOLECULE_DISTRIB=ubuntu18 molecule test
 molecule_ubuntu22:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=ubuntu22 molecule test
 molecule_ubuntu20:
   stage: molecule
-  image: lotusnoir/molecule_play
+  image: lotusnoir/molecule_play:latest
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
