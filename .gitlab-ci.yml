@@ -66,6 +66,11 @@ molecule_ubuntu20:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
     - MOLECULE_DISTRIB=ubuntu20 molecule test
+molecule_ubuntu24:
+  stage: molecule
+  image: lotusnoir/molecule_play:latest
+  script:
+    - MOLECULE_DISTRIB=ubuntu24 molecule test
 
 ######################################################
 # GENERATE CHANGELOG FILE
@@ -84,6 +89,7 @@ changelog:
     - molecule_ubuntu18
     - molecule_ubuntu22
     - molecule_ubuntu20
+    - molecule_ubuntu24
   artifacts:
     paths:
       - CHANGELOG.md
