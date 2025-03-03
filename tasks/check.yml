@@ -11,7 +11,8 @@
       ansible.builtin.assert:
         that:
           - ansible_distribution in galaxy_info.platforms|json_query('[].name')
-          - (ansible_distribution_release in (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions) or (ansible_distribution_major_version in (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions)
+          - (ansible_distribution_release in (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions) or
+            (ansible_distribution_major_version in (galaxy_info.platforms| selectattr('name', 'match', ansible_distribution)| list|first).versions)
         fail_msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} not supported."
         success_msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} is supported. Continue play."
   rescue:

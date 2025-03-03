@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       - id: check-added-large-files
       - id: end-of-file-fixer
@@ -15,26 +15,38 @@ repos:
       - id: check-yaml
         files: .*\.(yaml|yml)$
 
+  # Autoformat: YAML, JSON, Markdown, etc.
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        args:
+          ["--ignore-unknown", "--no-error-on-unmatched-pattern", "!chart/**"]
+
+  # Lint: Markdown
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+      - id: markdownlint
+        args: ["--fix", "--disable", "MD013 MD033"]
+
+  # Lint: YAML
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.32.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
         files: \.(yaml|yml)$
         types: [file, yaml]
         entry: yamllint --strict -f parsable
 
+  # Lint: Ansible
   - repo: https://github.com/ansible-community/ansible-lint
-    rev: v6.22.2
+    rev: v25.1.1
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
         entry: ansible-lint --force-color
         exclude: ^molecule/
-
-  # - repo: https://github.com/kadrach/pre-commit-gitlabci-lint
-  #   rev: 22d0495c9894e8b27cc37c2ed5d9a6b46385a44c
-  #   hooks:
-  #     - id: gitlabci-lint
 
   - repo: https://github.com/robertdebock/pre-commit
     rev: v1.5.2
@@ -45,3 +57,18 @@ repos:
       - id: ansible_role_fix_readability
       - id: ansible_role_find_undefined_handlers
       - id: ansible_role_find_unquoted_values
+
+  # Secu: Detect secrets
+  - repo: local
+    hooks:
+      - id: trufflehog
+        name: TruffleHog
+        description: Detect secrets in your data.
+        entry: bash -c 'trufflehog --no-update git file://. --since-commit HEAD --only-verified --fail'
+        language: system
+        stages: ["commit", "push"]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.23.1
+    hooks:
+      - id: gitleaks

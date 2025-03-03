@@ -15,10 +15,10 @@
       name=Wazuh repository
       baseurl=https://packages.wazuh.com/{{ wazuh_version }}/yum/
       protect=1
-    mode: '0644'
+    mode: "0644"
 
 - name: "Redhat | Uninstall wazuh-agent package"
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "wazuh-agent"
     state: absent
   register: pkg_result
@@ -34,7 +34,7 @@
   when: wazuh_agent_reinstall|bool
 
 - name: "Redhat | Install wazuh-agent package"
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: wazuh-agent
     state: present
   register: pkg_result
@@ -59,7 +59,7 @@
   when: not wazuh_agent_dl_only | bool
 
 - name: "Redhat | Install yum-downloadonly"
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: yum-downloadonly
     state: present
   register: pkg_result
