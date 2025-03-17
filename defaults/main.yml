@@ -1,8 +1,8 @@
 ---
-#Deploy vars
+### Deploy vars
 wazuh_version: "4.x"
 wazuh_manager_ip: "1.2.3.4"
-#wazuh_repository: "http://customrepo/xxx"
+# wazuh_repository: "http://customrepo/xxx"
 wazuh_manager_port: 1514
 wazuh_manager_protocol: tcp
 wazuh_registration_server: "{{ wazuh_manager_ip }}"
@@ -17,6 +17,6 @@ wazuh_agent_name: "{{ ansible_hostname }}"
 wazuh_agent_group: "default"
 wazuh_enrollment_delay: 20
 
-#Force reinstall
+### Force reinstall
 wazuh_agent_reinstall: false
 wazuh_agent_dl_only: false

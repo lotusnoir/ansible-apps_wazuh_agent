@@ -1,8 +1,8 @@
 ---
-#file:
-#  /var/spool/rsyslog:
-#    exists: true
-#    mode: "0755"
+# file:
+#   /var/spool/rsyslog:
+#     exists: true
+#     mode: "0755"
 
 service:
   wazuh-agent:

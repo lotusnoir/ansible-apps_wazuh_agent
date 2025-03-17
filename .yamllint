@@ -10,7 +10,7 @@ rules:
   brackets: enable
   colons: enable
   commas: enable
-  comments: false
+  comments: enable
   comments-indentation: false
   document-end: disable
   document-start:
@@ -21,7 +21,8 @@ rules:
   indentation: enable
   key-duplicates: enable
   key-ordering: disable
-  line-length: disable
+  line-length:
+    max: 160
   new-line-at-end-of-file: enable
   new-lines: enable
   octal-values:
