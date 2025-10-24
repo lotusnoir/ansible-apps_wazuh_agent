@@ -10,58 +10,71 @@ variables:
   PY_COLORS: 1
 
 ######################################################
+# DEFINE CHANGES RULES
+######################################################
+.molecule_job_template: &molecule_job_template
+  stage: molecule
+  image: lotusnoir/molecule_play:latest
+  rules:
+    # Exécuter uniquement si un fichier pertinent change
+    - changes:
+        - "defaults/**"
+        - "files/**"
+        - "handlers/**"
+        - "meta/**"
+        - "tasks/**"
+        - "templates/**"
+        - "vars/**"
+        - "molecule/*/**"   # Inclut tous les fichiers dans chaque scenario
+        - "molecule/*"      # Inclut le scenario lui-même (utile pour playbook.yml)
+    - when: never           # Sinon, ne pas exécuter
+
+######################################################
 # RUN MOLECULE FOR EACH DISTRIB
 ######################################################
 molecule_debian12:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   script:
     - MOLECULE_DISTRIB=debian12 molecule test
 molecule_debian11:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   script:
     - MOLECULE_DISTRIB=debian11 molecule test
 molecule_debian10:
-  stage: molecule
+  <<: *molecule_job_template
   image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=debian10 molecule test
 molecule_oraclelinux8:
-  stage: molecule
+  <<: *molecule_job_template
   image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=oraclelinux8 molecule test
 molecule_oraclelinux9:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   script:
     - MOLECULE_DISTRIB=oraclelinux9 molecule test
 molecule_rocky8:
-  stage: molecule
+  <<: *molecule_job_template
   image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=rocky8 molecule test
 molecule_rocky9:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   script:
     - MOLECULE_DISTRIB=rocky9 molecule test
 molecule_ubuntu20:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
     - MOLECULE_DISTRIB=ubuntu20 molecule test
 molecule_ubuntu22:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   script:
     - MOLECULE_DISTRIB=ubuntu22 molecule test
 molecule_ubuntu24:
-  stage: molecule
-  image: lotusnoir/molecule_play:latest
+  <<: *molecule_job_template
   script:
     - MOLECULE_DISTRIB=ubuntu24 molecule test
 
@@ -72,24 +85,76 @@ changelog:
   stage: changes
   image: node:19
   needs:
-    - molecule_debian12
-    - molecule_debian11
-    - molecule_debian10
-    - molecule_oraclelinux8
-    - molecule_oraclelinux9
-    - molecule_rocky8
-    - molecule_rocky9
-    - molecule_ubuntu20
-    - molecule_ubuntu22
-    - molecule_ubuntu24
+    - job: molecule_debian12
+      optional: true
+    - job: molecule_debian11
+      optional: true
+    - job: molecule_debian10
+      optional: true
+    - job: molecule_oraclelinux8
+      optional: true
+    - job: molecule_oraclelinux9
+      optional: true
+    - job: molecule_rocky8
+      optional: true
+    - job: molecule_rocky9
+      optional: true
+    - job: molecule_ubuntu20
+      optional: true
+    - job: molecule_ubuntu22
+      optional: true
+    - job: molecule_ubuntu24
+      optional: true
   artifacts:
     paths:
       - CHANGELOG.md
     expire_in: 1 day
   before_script:
+    - apt-get update -qq && apt-get install -y git rsync
     - npm install -g auto-changelog
+    - git config --global user.name "CI Bot"
+    - git config --global user.email "ci@${CI_SERVER_HOST}"
+
   script:
-    - auto-changelog -t keepachangelog --sort-commits date-desc --hide-empty-releases --hide-credit -l 10 -b 10
+    # 1️⃣ Clone GitHub repository (source of truth)
+    - mkdir -p ~/.ssh
+    - echo "$GITHUB_USER_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_ed25519
+    - git clone git@github.com:${GITHUB_USER}/ansible-apps_wazuh_agent.git tmp_repo
+    - cd tmp_repo
+    - git fetch --tags
+
+    # 2️⃣ Merge local GitLab changes as working tree diff (no commits)
+    - rsync -av --exclude .git "${CI_PROJECT_DIR}/" ./
+
+    # 3️⃣ Skip changelog if last commit is already a changelog
+    - LAST_MSG="$(git log -1 --pretty=%B || echo '')"
+    - |
+      if echo "$LAST_MSG" | grep -qiE "changelog|update changelog|maj changelog"; then
+        echo "⚠️ Last commit is a changelog, skipping."
+        echo "skip" > CHANGELOG.md
+        exit 0
+      fi
+
+    # 4️⃣ Debug: show last tags
+    - echo "🔖 Tags present on GitHub branch:"
+    - git tag --sort=creatordate | tail -n 10
+
+    # 5️⃣ Generate changelog based only on GitHub history
+    - auto-changelog \
+        -t keepachangelog \
+        --commit-url "https://github.com/${GITHUB_USER}/ansible-apps_wazuh_agent/commit/{{hash}}" \
+        --issue-url "" \
+        --sort-commits date-desc \
+        --hide-empty-releases \
+        --hide-credit \
+        -b 50
+
+    # 6️⃣ Copy changelog to CI project root
+    - cp CHANGELOG.md ${CI_PROJECT_DIR}/
 
 ##################################################
 # PUSH CODE WHEN ALL TEST OK
@@ -111,11 +176,16 @@ push_src_on_github:
     - git config --global init.defaultBranch main
     - COMMENT=$(git log -1 --pretty=%B | head -1)
   script:
+    - if grep -q "^skip" CHANGELOG.md 2>/dev/null; then
+        echo "⚠️  Changelog marqué 'skip' — aucun push GitHub effectué.";
+        exit 0;
+      fi
     - git clone git@github.com:${GITHUB_USER}/ansible-apps_wazuh_agent.git /tmp/ansible-apps_wazuh_agent
     - find /tmp/ansible-apps_wazuh_agent -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf "{}" +;
     - rm -rf .git
     - cp -r . /tmp/ansible-apps_wazuh_agent/
     - cd /tmp/ansible-apps_wazuh_agent
     - git add -A
+    # - git diff --quiet && echo "✅ Aucun changement à pousser." && exit 0
     - git commit -m "${COMMENT}" || echo "No changes, nothing to commit!"
     - git push --follow-tags
