@@ -45,6 +45,10 @@ molecule_debian10:
   image: lotusnoir/molecule_play:v2.0.0
   script:
     - MOLECULE_DISTRIB=debian10 molecule test
+molecule_debian13:
+  <<: *molecule_job_template
+  script:
+    - MOLECULE_DISTRIB=debian13 molecule test
 molecule_oraclelinux8:
   <<: *molecule_job_template
   image: lotusnoir/molecule_play:v2.0.0
@@ -90,6 +94,8 @@ changelog:
     - job: molecule_debian11
       optional: true
     - job: molecule_debian10
+      optional: true
+    - job: molecule_debian13
       optional: true
     - job: molecule_oraclelinux8
       optional: true

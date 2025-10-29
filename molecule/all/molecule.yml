@@ -70,6 +70,15 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     groups:
       - python3
+  - name: apps-wazuh-agent-debiantrixie
+    image: lotusnoir/ansible_molecule_test_images:debiantrixie
+    pre_build_image: true
+    cgroupns_mode: host
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    groups:
+      - python3
   - name: apps-wazuh-agent-rocky8
     image: lotusnoir/ansible_molecule_test_images:rocky8
     pre_build_image: true
@@ -134,6 +143,8 @@ provisioner:
       bullseye:
         ansible_python_interpreter: "/usr/bin/python3.9"
       bookworm:
+        ansible_python_interpreter: "/usr/bin/python3.9"
+      trixie:
         ansible_python_interpreter: "/usr/bin/python3.9"
 
 verifier:

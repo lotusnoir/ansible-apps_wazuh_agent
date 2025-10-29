@@ -13,7 +13,9 @@
     url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
     keyring: /etc/apt/trusted.gpg
     state: absent
-  when: wazuh_repository is not defined
+  when:
+    - wazuh_repository is not defined
+    - ansible_distribution == 'Debian' and ansible_distribution_major_version <= '11'
 
 - name: "Debian | Add wazuh apt signing key"
   ansible.builtin.get_url:
