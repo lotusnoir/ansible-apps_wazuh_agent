@@ -2,6 +2,7 @@
 ### Checks
 - name: Import check tasks
   ansible.builtin.import_tasks: check.yml
+  tags: always
 
 ### Import vars
 - name: Gather OS specific variables
@@ -19,7 +20,9 @@
     params: "{{ lookup('first_found', params_, errors='ignore') }}"
   when:
     - (params | length > 0)
+  tags: always
 
 ### Install
 - name: Import install tasks
-  ansible.builtin.import_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
+  tags: always

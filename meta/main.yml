@@ -22,10 +22,12 @@ galaxy_info:
       versions:
         - "8"
         - "9"
+        - "10"
     - name: "OracleLinux"
       versions:
         - "8"
         - "9"
+        - "10"
     - name: "RedHat"
       versions:
         - "8"

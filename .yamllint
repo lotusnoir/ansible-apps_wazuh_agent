@@ -10,26 +10,45 @@ rules:
   brackets: enable
   colons: enable
   commas: enable
-  comments: enable
-  comments-indentation: false
+
+  comments:
+    min-spaces-from-content: 1
+    require-starting-space: true
+  comments-indentation: false       # obligatoire pour Galaxy
+
   document-end: disable
-  document-start:
-    level: warning
-  empty-lines: enable
+  document-start: enable
+
+  empty-lines:
+    max: 1
+    max-start: 0
+    max-end: 0
   empty-values: disable
   hyphens: enable
-  indentation: enable
+
+  indentation:
+    spaces: 2
+    indent-sequences: true
+
   key-duplicates: enable
-  key-ordering: disable
+  key-ordering: disable             # indispensable pour Ansible/Jinja
+
   line-length:
-    max: 300
+    max: 160
     level: warning
+
   new-line-at-end-of-file: enable
   new-lines: enable
+
   octal-values:
     forbid-implicit-octal: true
     forbid-explicit-octal: true
-  quoted-strings: disable
+
+  quoted-strings:
+    required: false                 # nécessaire pour les chaînes Jinja
+
   trailing-spaces: enable
+
   truthy:
-    level: warning
+    allowed-values: ['true', 'false']
+    level: error

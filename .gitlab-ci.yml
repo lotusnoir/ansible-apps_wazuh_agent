@@ -14,7 +14,6 @@ variables:
 ######################################################
 .molecule_job_template: &molecule_job_template
   stage: molecule
-  image: lotusnoir/molecule_play:latest
   rules:
     # Exécuter uniquement si un fichier pertinent change
     - changes:
@@ -34,10 +33,12 @@ variables:
 ######################################################
 molecule_debian12:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=debian12 molecule test
 molecule_debian11:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=debian11 molecule test
 molecule_debian10:
@@ -47,8 +48,16 @@ molecule_debian10:
     - MOLECULE_DISTRIB=debian10 molecule test
 molecule_debian13:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=debian13 molecule test
+molecule_oraclelinux10:
+  <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
+  tags:
+    - avx2
+  script:
+    - MOLECULE_DISTRIB=oraclelinux10 molecule test
 molecule_oraclelinux8:
   <<: *molecule_job_template
   image: lotusnoir/molecule_play:v2.0.0
@@ -56,8 +65,16 @@ molecule_oraclelinux8:
     - MOLECULE_DISTRIB=oraclelinux8 molecule test
 molecule_oraclelinux9:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=oraclelinux9 molecule test
+molecule_rocky10:
+  <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
+  tags:
+    - avx2
+  script:
+    - MOLECULE_DISTRIB=rocky10 molecule test
 molecule_rocky8:
   <<: *molecule_job_template
   image: lotusnoir/molecule_play:v2.0.0
@@ -65,20 +82,24 @@ molecule_rocky8:
     - MOLECULE_DISTRIB=rocky8 molecule test
 molecule_rocky9:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=rocky9 molecule test
 molecule_ubuntu20:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
     - MOLECULE_DISTRIB=ubuntu20 molecule test
 molecule_ubuntu22:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=ubuntu22 molecule test
 molecule_ubuntu24:
   <<: *molecule_job_template
+  image: lotusnoir/molecule_play:latest
   script:
     - MOLECULE_DISTRIB=ubuntu24 molecule test
 
@@ -97,9 +118,13 @@ changelog:
       optional: true
     - job: molecule_debian13
       optional: true
+    - job: molecule_oraclelinux10
+      optional: true
     - job: molecule_oraclelinux8
       optional: true
     - job: molecule_oraclelinux9
+      optional: true
+    - job: molecule_rocky10
       optional: true
     - job: molecule_rocky8
       optional: true
