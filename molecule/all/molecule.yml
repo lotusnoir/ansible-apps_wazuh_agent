@@ -70,8 +70,8 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     groups:
       - python3
-  - name: apps-wazuh-agent-debiantrixie
-    image: lotusnoir/ansible_molecule_test_images:debiantrixie
+  - name: apps-wazuh-agent-debian13
+    image: lotusnoir/ansible_molecule_test_images:debian13
     pre_build_image: true
     cgroupns_mode: host
     privileged: true

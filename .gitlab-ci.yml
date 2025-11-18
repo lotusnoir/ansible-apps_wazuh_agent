@@ -17,6 +17,7 @@ variables:
   rules:
     # Exécuter uniquement si un fichier pertinent change
     - changes:
+        - ".gitlab-ci.yml"
         - "defaults/**"
         - "files/**"
         - "handlers/**"
@@ -33,73 +34,73 @@ variables:
 ######################################################
 molecule_debian12:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=debian12 molecule test
 molecule_debian11:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=debian11 molecule test
 molecule_debian10:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:v2.0.0
+  image: lotusnoir/molecule_play:2.15.13
   script:
     - MOLECULE_DISTRIB=debian10 molecule test
 molecule_debian13:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=debian13 molecule test
 molecule_oraclelinux10:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   tags:
     - avx2
   script:
     - MOLECULE_DISTRIB=oraclelinux10 molecule test
 molecule_oraclelinux8:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:v2.0.0
+  image: lotusnoir/molecule_play:2.15.13
   script:
     - MOLECULE_DISTRIB=oraclelinux8 molecule test
 molecule_oraclelinux9:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=oraclelinux9 molecule test
 molecule_rocky10:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   tags:
     - avx2
   script:
     - MOLECULE_DISTRIB=rocky10 molecule test
 molecule_rocky8:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:v2.0.0
+  image: lotusnoir/molecule_play:2.15.13
   script:
     - MOLECULE_DISTRIB=rocky8 molecule test
 molecule_rocky9:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=rocky9 molecule test
 molecule_ubuntu20:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   variables:
     MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
   script:
     - MOLECULE_DISTRIB=ubuntu20 molecule test
 molecule_ubuntu22:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=ubuntu22 molecule test
 molecule_ubuntu24:
   <<: *molecule_job_template
-  image: lotusnoir/molecule_play:latest
+  image: lotusnoir/molecule_play:2.18.11
   script:
     - MOLECULE_DISTRIB=ubuntu24 molecule test
 
