@@ -26,3 +26,30 @@
 - name: Import install tasks
   ansible.builtin.include_tasks: install.yml
   tags: always
+
+### Success run flag
+- name: "Ensure /var/cache/ansible exists"
+  ansible.builtin.file:
+    path: /var/cache/ansible
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when:
+    - ansible_os_family in ["Debian", "RedHat"]
+    - success_run_flag is defined
+    - success_run_flag | bool
+  tags: always
+
+- name: "Creation Successful run flag"
+  ansible.builtin.copy:
+    dest: "/var/cache/ansible/{{ role_path | basename }}"
+    content: "{{ ansible_date_time.iso8601 }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when:
+    - ansible_os_family in ["Debian", "RedHat"]
+    - success_run_flag is defined
+    - success_run_flag | bool
+  tags: always
