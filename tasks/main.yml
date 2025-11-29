@@ -29,6 +29,7 @@
 
 ### Success run flag
 - name: "Ensure /var/cache/ansible exists"
+  become: true
   ansible.builtin.file:
     path: /var/cache/ansible
     state: directory
@@ -39,9 +40,12 @@
     - ansible_os_family in ["Debian", "RedHat"]
     - success_run_flag is defined
     - success_run_flag | bool
+  changed_when: false
+  failed_when: false
   tags: always
 
 - name: "Creation Successful run flag"
+  become: true
   ansible.builtin.copy:
     dest: "/var/cache/ansible/{{ role_path | basename }}"
     content: "{{ ansible_date_time.iso8601 }}"
@@ -52,4 +56,6 @@
     - ansible_os_family in ["Debian", "RedHat"]
     - success_run_flag is defined
     - success_run_flag | bool
+  changed_when: false
+  failed_when: false
   tags: always
