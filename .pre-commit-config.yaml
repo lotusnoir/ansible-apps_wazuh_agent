@@ -1,13 +1,15 @@
 ---
+default_language_version:
+  python: python3
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: mixed-line-ending
-      - id: check-byte-order-marker
+      - id: fix-byte-order-marker
       - id: check-merge-conflict
       - id: check-executables-have-shebangs
       - id: check-symlinks
@@ -33,7 +35,7 @@ repos:
 
   # Lint: Ansible
   - repo: https://github.com/ansible-community/ansible-lint
-    rev: v25.1.1
+    rev: v25.7.0
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
@@ -58,9 +60,9 @@ repos:
         description: Detect secrets in your data.
         entry: bash -c 'trufflehog --no-update git file://. --since-commit HEAD --only-verified --fail'
         language: system
-        stages: ["commit", "push"]
+        stages: ["pre-commit", "pre-push"]
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.23.1
+    rev: v8.30.0
     hooks:
       - id: gitleaks

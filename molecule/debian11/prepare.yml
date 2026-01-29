@@ -11,11 +11,11 @@
       until: apt_update is succeeded
       retries: 3
       delay: 10
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts.os_family == 'Debian'
 
     - name: Start dbus for oraclelinux9
       ansible.builtin.systemd:
         name: dbus
         state: started
         enabled: true
-      when: ansible_os_family == 'RedHat' and (ansible_distribution_major_version | int) >= 9
+      when: ansible_facts.os_family == 'RedHat' and (ansible_facts.distribution_major_version | int) >= 9
