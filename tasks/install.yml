@@ -1,6 +1,6 @@
 ---
 - name: "RedHat | Install wazuh-agent"
-  ansible.builtin.include_tasks: "setup-{{ ansible_os_family | lower }}.yml"
+  ansible.builtin.include_tasks: "setup-{{ ansible_facts.os_family | lower }}.yml"
 
 - name: "Start wazuh-agent"
   ansible.builtin.service:
@@ -8,5 +8,5 @@
     state: started
     enabled: true
   when:
-    - ansible_os_family != "Windows"
+    - ansible_facts.os_family != "Windows"
     - not wazuh_agent_dl_only|bool

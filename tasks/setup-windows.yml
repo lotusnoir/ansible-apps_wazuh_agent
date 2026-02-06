@@ -18,4 +18,4 @@
   ansible.windows.win_service:
     name: "Wazuh"
     state: started
-  when: not ansible_check_mode and ansible_os_family == "Windows"
+  when: not ansible_check_mode and ansible_facts.os_family == "Windows"
